@@ -14,7 +14,7 @@ function setup(){
 function draw(){    //描写
     background(220);
 
-    scale(40);
+    scale(80);
 
     for(let k=0;k<geonum;k++)   for(let i=0;i<facenum[k].length;i++){
         stroke(255);
