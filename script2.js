@@ -22,7 +22,7 @@ function setup(){
     select.option('平行投影');
 
     check=createCheckbox('輪郭線のみ',false);   //チェックボックスの生成
-    check.position(width*0.7,size+size/1);
+    check.position(width*0.7,size+size/10);
     check.style('font-size',size/25+'px');
 
 }
