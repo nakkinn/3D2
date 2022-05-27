@@ -13,14 +13,17 @@ function setup(){
 
     let url=createA('https://google.com','Google'); //リンクの生成　('url','リンクの名前')
     url.position(0,size);   
+    url.style('font-size',size/25+'px');
 
     select=createSelect();  //セレクトボックスの生成
     select.position(width*0.7,size);
+    select.style('font-size',size/25+'px');
     select.option('透視投影');
     select.option('平行投影');
 
-    check=createCheckbox('輪郭線のみ',false);
+    check=createCheckbox('輪郭線のみ',false);   //チェックボックスの生成
     check.position(width*0.7,size+30);
+    check.style('font-size',size/25+'px');
 
 }
 
@@ -41,7 +44,7 @@ function draw(){
     //立体の描写
     stroke(0);  //輪郭の色
     for(let k=0;k<geonum;k++)   for(let i=0;i<facenum[k].length;i++){   
-        if(check.checked())   noFill();
+        if(check.checked())   noFill(); //面の色
         else    fill(col[k][0],col[k][1],col[k][2]);
         beginShape();
         for(let j=0;j<facenum[k][i].length;j++){
@@ -62,7 +65,7 @@ function draw(){
         }
     }
 
-    //回転角速度の減衰
+    //回転の減衰
     if(mouseIsPressed==false){  
         theta*=0.99;
     }
