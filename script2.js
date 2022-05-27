@@ -25,51 +25,56 @@ function setup(){
     select.option('正十二面体と長方形２');
     select.option('正十二面体と立方体');
 
-    select.selected('正十二面体２');
+    select.selected('正十二面体');
 
     ortho(-width/2,width/2,-height/2,height/2,0,size*scal*2);
 }
 
 //描写
 function draw(){    
-    background(backgroundcolor[0],backgroundcolor[1],backgroundcolor[2]);   //背景色
+    background(220);   //背景色
 
     scale(size*scal*0.2);   //スケール
 
     let list=[];
-    if(select.value()=='正十二面体')    list=[0];
-    if(select.value()=='正十二面体２')    list=[1];
-    if(select.value()=='正十二面体と長方形')    list=[0,2];
-    if(select.value()=='正十二面体と長方形２')    list=[0,2,3,4];
-    if(select.value()=='正十二面体と立方体')    list=[0,2,3,4,5];
+    if(select.value()=='正十二面体'||select.value()=='正十二面体２')    list=[0];
+    if(select.value()=='正十二面体と長方形')    list=[0,1];
+    if(select.value()=='正十二面体と長方形２')    list=[0,1,2,3];
+    if(select.value()=='正十二面体と立方体')    list=[0,1,2,3,4];
 
+    
     for(let k=0;k<list.length;k++)  for(let i=0;i<facenum[list[k]].length;i++){  
-        strokeWeight(2);
-
+        strokeWeight(5);
         if(select.value()=='正十二面体'){
             fill(255,150,150);
+            stroke(0);
         }
 
         if(select.value()=='正十二面体２'){
-            strokeWeight(5);
+            noFill();
             stroke(0);
         }
 
         if(select.value()=='正十二面体と長方形'||select.value()=='正十二面体と長方形２'||select.value()=='正十二面体と立方体'){
             if(k==0){
                 noFill();
+                stroke(0);
             }
             if(k==1){
                 fill(255,0,0);
+                noStroke();
             }
             if(k==2){
                 fill(0,255,0);
+                noStroke();
             }
             if(k==3){
                 fill(0,0,255);
+                noStroke();
             }
             if(k==4){
                 fill(255);
+                stroke(0);
             }
         }
 
@@ -78,8 +83,8 @@ function draw(){
             vertex(pos[facenum[list[k]][i][j]-1][0],pos[facenum[list[k]][i][j]-1][1],pos[facenum[list[k]][i][j]-1][2]);
         }
         endShape(CLOSE);
-
-        if(select.value()=='正十二面体２'){
+        
+        if((select.value()=='正十二面体２'||select.value()=='正十二面体と長方形'||select.value()=='正十二面体と長方形２'||select.value()=='正十二面体と立方体')&&k==0){
             stroke(255);
             strokeWeight(8);
             beginShape();
