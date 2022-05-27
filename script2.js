@@ -44,7 +44,7 @@ function draw(){
 
     
     for(let k=0;k<list.length;k++)  for(let i=0;i<facenum[list[k]].length;i++){  
-        strokeWeight(5);
+        strokeWeight(10);
         if(select.value()=='正十二面体'){
             fill(255,150,150);
             stroke(0);
@@ -73,7 +73,7 @@ function draw(){
                 noStroke();
             }
             if(k==4){
-                fill(255);
+                fill(200,180,235);
                 stroke(0);
             }
         }
@@ -86,7 +86,7 @@ function draw(){
         
         if((select.value()=='正十二面体２'||select.value()=='正十二面体と長方形'||select.value()=='正十二面体と長方形２'||select.value()=='正十二面体と立方体')&&k==0){
             stroke(255);
-            strokeWeight(8);
+            strokeWeight(16);
             beginShape();
             for(let j=0;j<facenum[list[k]][i].length;j++){
                 vertex(pos[facenum[list[k]][i][j]-1][0]*0.98, pos[facenum[list[k]][i][j]-1][1]*0.98, pos[facenum[list[k]][i][j]-1][2]*0.98);
