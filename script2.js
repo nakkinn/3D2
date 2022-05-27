@@ -11,62 +11,95 @@ function setup(){
     createCanvas(size,size,WEBGL);    //キャンバスのサイズ　正方形
     n=createVector(1,0,0);  //回転軸のベクトル
 
+    /*
     let url=createA('https://google.com','Google'); //リンクの生成　('url','リンクの名前')
     url.position(0,size);   
     url.style('font-size',size/25+'px');
+    */
 
     select=createSelect();  //セレクトボックスの生成
-    select.position(width*0.7,size);
     select.style('font-size',size/25+'px');
-    select.option('透視投影');
-    select.option('平行投影');
+    select.option('正十二面体');
+    select.option('正十二面体２');
+    select.option('正十二面体と長方形');
+    select.option('正十二面体と長方形２');
+    select.option('正十二面体と立方体');
 
-    check=createCheckbox('輪郭線のみ',false);   //チェックボックスの生成
-    check.position(width*0.7,size+size/10);
-    check.style('font-size',size/25+'px');
+    select.selected('正十二面体２');
 
+    ortho(-width/2,width/2,-height/2,height/2,0,size*scal*2);
 }
 
 //描写
 function draw(){    
     background(backgroundcolor[0],backgroundcolor[1],backgroundcolor[2]);   //背景色
 
-    scale(size*scal*0.1);   //スケール
+    scale(size*scal*0.2);   //スケール
 
-    if(select.value()=='透視投影'){
-        perspective();
-        sw=1;
-    }else{
-        ortho(-width/2,width/2,-height/2,height/2,0,size*scal*2);
-        sw=2;
-    }
-    
-    //立体の描写
-    stroke(0);  //輪郭の色
-    for(let k=0;k<geonum;k++)   for(let i=0;i<facenum[k].length;i++){  
+    let list=[];
+    if(select.value()=='正十二面体')    list=[0];
+    if(select.value()=='正十二面体２')    list=[1];
+    if(select.value()=='正十二面体と長方形')    list=[0,2];
+    if(select.value()=='正十二面体と長方形２')    list=[0,2,3,4];
+    if(select.value()=='正十二面体と立方体')    list=[0,2,3,4,5];
 
-        if(check.checked()||transparency[k]==0)   noFill(); //面の色
-        else    fill(facecolor[k][0],facecolor[k][1],facecolor[k][2]);
+    for(let k=0;k<list.length;k++)  for(let i=0;i<facenum[list[k]].length;i++){  
+        strokeWeight(2);
 
-        strokeWeight(edgeweight[k]*sw);
-        stroke(edgecolor[k][0],edgecolor[k][1],edgecolor[k][2]);
+        if(select.value()=='正十二面体'){
+            fill(255,150,150);
+        }
+
+        if(select.value()=='正十二面体２'){
+            strokeWeight(5);
+            stroke(0);
+        }
+
+        if(select.value()=='正十二面体と長方形'||select.value()=='正十二面体と長方形２'||select.value()=='正十二面体と立方体'){
+            if(k==0){
+                noFill();
+            }
+            if(k==1){
+                fill(255,0,0);
+            }
+            if(k==2){
+                fill(0,255,0);
+            }
+            if(k==3){
+                fill(0,0,255);
+            }
+            if(k==4){
+                fill(255);
+            }
+        }
 
         beginShape();
-        for(let j=0;j<facenum[k][i].length;j++){
-            vertex(pos[k][facenum[k][i][j]-1][0],pos[k][facenum[k][i][j]-1][1],pos[k][facenum[k][i][j]-1][2]);
+        for(let j=0;j<facenum[list[k]][i].length;j++){
+            vertex(pos[facenum[list[k]][i][j]-1][0],pos[facenum[list[k]][i][j]-1][1],pos[facenum[list[k]][i][j]-1][2]);
         }
         endShape(CLOSE);
+
+        if(select.value()=='正十二面体２'){
+            stroke(255);
+            strokeWeight(8);
+            beginShape();
+            for(let j=0;j<facenum[list[k]][i].length;j++){
+                vertex(pos[facenum[list[k]][i][j]-1][0]*0.98, pos[facenum[list[k]][i][j]-1][1]*0.98, pos[facenum[list[k]][i][j]-1][2]*0.98);
+            }
+            endShape(CLOSE);  
+        }
     }
+
 
     //回転
     if(mouseIsPressed==false){  
-        for(let k=0;k<geonum;k++)   for(let i=0;i<pos[k].length;i++){
-            let v=createVector(pos[k][i][0],pos[k][i][1],pos[k][i][2]);
+        for(let i=0;i<pos.length;i++){
+            let v=createVector(pos[i][0],pos[i][1],pos[i][2]);
             theta=constrain(theta,0,0.1);
             v=rot(v,n,theta*deltaTime*0.04);
-            pos[k][i][0]=v.x;
-            pos[k][i][1]=v.y;
-            pos[k][i][2]=v.z;
+            pos[i][0]=v.x;
+            pos[i][1]=v.y;
+            pos[i][2]=v.z;
         }
     }
 
@@ -85,15 +118,15 @@ function mouseDragged(){
     n.y=sin(angle);
 
     //回転
-    for(let k=0;k<geonum;k++)   for(let i=0;i<pos[k].length;i++){   
+    for(let i=0;i<pos.length;i++){   
         let v=createVector(0,0,0);
     
-        v=v.set(pos[k][i][0],pos[k][i][1],pos[k][i][2]);
+        v=v.set(pos[i][0],pos[i][1],pos[i][2]);
         
         v=rot(v,n,theta*deltaTime*0.04);
-        pos[k][i][0]=v.x;
-        pos[k][i][1]=v.y;
-        pos[k][i][2]=v.z;
+        pos[i][0]=v.x;
+        pos[i][1]=v.y;
+        pos[i][2]=v.z;
     }    
     
 }
