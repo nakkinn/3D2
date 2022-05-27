@@ -3,7 +3,7 @@ function disableScroll(event) { //スマホの縦スクロールを制限
 }
 document.addEventListener('touchmove', disableScroll, { passive: false });
 
-let theta=0,n,size;
+let theta=0,n,size,sw=1;
 let select,check;
 
 function setup(){
@@ -35,17 +35,22 @@ function draw(){
 
     if(select.value()=='透視投影'){
         perspective();
-        strokeWeight(1);
+        sw=1;
     }else{
         ortho(-width/2,width/2,-height/2,height/2,0,size*scal*2);
-        strokeWeight(2);
+        sw=2;
     }
     
     //立体の描写
     stroke(0);  //輪郭の色
-    for(let k=0;k<geonum;k++)   for(let i=0;i<facenum[k].length;i++){   
-        if(check.checked())   noFill(); //面の色
-        else    fill(col[k][0],col[k][1],col[k][2]);
+    for(let k=0;k<geonum;k++)   for(let i=0;i<facenum[k].length;i++){  
+
+        if(check.checked()||transparency[k]==0)   noFill(); //面の色
+        else    fill(facecolor[k][0],facecolor[k][1],facecolor[k][2]);
+
+        strokeWeight(edgeweight[k]*sw);
+        stroke(edgecolor[k][0],edgecolor[k][1],edgecolor[k][2]);
+
         beginShape();
         for(let j=0;j<facenum[k][i].length;j++){
             vertex(pos[k][facenum[k][i][j]-1][0],pos[k][facenum[k][i][j]-1][1],pos[k][facenum[k][i][j]-1][2]);
