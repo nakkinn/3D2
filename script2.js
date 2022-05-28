@@ -46,7 +46,7 @@ function draw(){
     for(let k=0;k<list.length;k++)  for(let i=0;i<facenum[list[k]].length;i++){  
         strokeWeight(size/100);
         if(select.value()=='正十二面体'){
-            fill(255,150,150);
+            fill(255,100,100);
             stroke(0);
         }
 
@@ -73,8 +73,8 @@ function draw(){
                 noStroke();
             }
             if(k==4){
-                fill(200,180,235);
-                stroke(0);
+                noFill();
+                stroke(255,155,0);
             }
         }
 
@@ -106,15 +106,18 @@ function draw(){
             pos[i][1]=v.y;
             pos[i][2]=v.z;
         }
-    }
+    }else   mousedrag();
 
     //回転の減衰
     if(mouseIsPressed==false){  
         theta*=0.99;
     }
+
+    
 }
 
-function mouseDragged(){
+function mousedrag(){
+
     let angle=atan2(mouseY-pmouseY,mouseX-pmouseX)+PI/2;
     theta=map(dist(mouseX,mouseY,pmouseX,pmouseY),0,width,0,6);
 

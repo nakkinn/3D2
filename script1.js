@@ -1,9 +1,5 @@
 let pos=[];
 let facenum=[];
-let facecolor=[];
-let transparency=[];
-let edgeweight=[];
-let edgecolor=[];
 let geonum=0;  
 
 function addData(v,f){
